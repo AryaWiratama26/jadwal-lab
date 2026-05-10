@@ -51,7 +51,7 @@
                 <div>
                     <label class="form-label" for="hari">Hari</label>
                     <select name="hari" id="hari" class="form-input" required>
-                        @foreach(['Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'] as $day)
+                        @foreach(['Senin','Selasa','Rabu','Kamis','Jumat','Sabtu','Minggu'] as $day)
                             <option value="{{ $day }}" {{ old('hari', $schedule->hari) === $day ? 'selected' : '' }}>{{ $day }}</option>
                         @endforeach
                     </select>

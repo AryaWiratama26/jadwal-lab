@@ -14,7 +14,7 @@ class ScheduleController extends Controller
     {
         $schedules = Schedule::with(['course', 'assistants'])
             ->when($request->course_id, fn($q, $v) => $q->where('course_id', $v))
-            ->orderByRaw("FIELD(hari, 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu')")
+            ->orderByRaw("FIELD(hari, 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu')")
             ->orderBy('waktu_mulai')
             ->paginate(15);
 
@@ -38,7 +38,7 @@ class ScheduleController extends Controller
             'angkatan' => 'required|string|max:10',
             'program' => 'required|string|max:30',
             'kelas' => 'required|string|max:30',
-            'hari' => 'required|in:Senin,Selasa,Rabu,Kamis,Jumat,Sabtu',
+            'hari' => 'required|in:Senin,Selasa,Rabu,Kamis,Jumat,Sabtu,Minggu',
             'waktu_mulai' => 'required|string|max:10',
             'waktu_selesai' => 'required|string|max:10',
             'dosen' => 'required|string|max:255',
@@ -75,7 +75,7 @@ class ScheduleController extends Controller
             'angkatan' => 'required|string|max:10',
             'program' => 'required|string|max:30',
             'kelas' => 'required|string|max:30',
-            'hari' => 'required|in:Senin,Selasa,Rabu,Kamis,Jumat,Sabtu',
+            'hari' => 'required|in:Senin,Selasa,Rabu,Kamis,Jumat,Sabtu,Minggu',
             'waktu_mulai' => 'required|string|max:10',
             'waktu_selesai' => 'required|string|max:10',
             'dosen' => 'required|string|max:255',

@@ -16,7 +16,7 @@ class JadwalController extends Controller
         $schedules = Schedule::with(['course', 'assistants'])
             ->where('is_active', true)
             ->when($activeCourseId, fn($q) => $q->where('course_id', $activeCourseId))
-            ->orderByRaw("FIELD(hari, 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu')")
+            ->orderByRaw("FIELD(hari, 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu')")
             ->orderBy('waktu_mulai')
             ->get();
 

@@ -49,6 +49,6 @@ class Schedule extends Model
      */
     public static function dayOrder(): array
     {
-        return ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+        return ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu'];
     }
 }

@@ -1,60 +1,145 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Jadwal Lab — Sistem Informasi Jadwal Praktikum
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Aplikasi web untuk mengelola dan mempublikasikan jadwal praktikum Laboratorium Informatika.
+Halaman publik menampilkan jadwal yang dikelompokkan per hari beserta dosen, ruangan, dan
+asisten pendamping. Panel admin menyediakan CRUD untuk jadwal, mata kuliah, asisten, dan
+pengelolaan API key untuk akses REST API.
 
-## About Laravel
+Dikembangkan untuk lingkungan Universitas Pelita Bangsa.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Fitur
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+**Halaman publik**
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- Daftar jadwal dikelompokkan per hari (Senin–Minggu), terurut sesuai urutan hari
+- Filter berdasarkan mata kuliah dan pencarian langsung (nama kelas, dosen, ruangan, asisten)
+- Ringkasan otomatis: jumlah kelas, asisten, dan ruangan
+- Tampilan responsif untuk desktop dan perangkat seluler
 
-## Learning Laravel
+**Panel admin** (`/admin`)
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+- Dashboard berisi statistik dan lima jadwal terbaru
+- CRUD jadwal (kelas, angkatan, program Reguler/Ekstensi, hari, jam, dosen, ruangan, status aktif, catatan, penugasan asisten)
+- CRUD mata kuliah (dengan proteksi hapus jika masih memiliki jadwal) dan asisten
+- Pengelolaan API key: buat banyak key per aplikasi, revoke, dan pantau pemakaian terakhir
+- Dialog konfirmasi hapus dan notifikasi menggunakan SweetAlert2
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+**REST API** (`/api/v1`, dokumentasi lengkap di [`API.md`](API.md))
 
-## Laravel Sponsors
+- CRUD penuh untuk `schedules`, `courses`, dan `assistants`
+- Autentikasi API key lewat header `X-API-KEY` atau `Authorization: Bearer`
+- Filter, pencarian, pagination, dan pemuatan relasi (`course`, `assistants`)
+- Rate limit 60 request per menit, respons error selalu dalam format JSON
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## Teknologi
 
-### Premium Partners
+| Lapisan   | Teknologi                              |
+| --------- | -------------------------------------- |
+| Backend   | Laravel 12, PHP ^8.2, Eloquent ORM     |
+| Frontend  | Blade, Vite, Tailwind CSS v4, Phosphor Icons, SweetAlert2 (CDN) |
+| Database  | SQLite (pengembangan), MySQL (produksi) |
+| Testing   | PHPUnit                                |
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+## Kebutuhan Sistem
 
-## Contributing
+- PHP ^8.2 dengan ekstensi umum Laravel (mbstring, sqlite/mysql, dsb.)
+- Composer 2
+- Node.js 18+ dan npm (untuk membangun aset frontend)
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Instalasi Lokal
 
-## Code of Conduct
+```bash
+# 1. Install dependensi
+composer install
+npm install
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+# 2. Siapkan environment
+cp .env.example .env
+php artisan key:generate
 
-## Security Vulnerabilities
+# 3. Siapkan database (default SQLite)
+touch database/database.sqlite
+php artisan migrate --seed
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+# 4. Jalankan server pengembangan (server + queue + log + vite)
+composer dev
+```
 
-## License
+Buka `http://localhost:8000` untuk halaman publik dan
+`http://localhost:8000/admin` untuk panel admin.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
-# jadwal-lab
+Untuk produksi dengan MySQL, sesuaikan variabel `DB_*` di `.env`
+(seperti `DB_CONNECTION=mysql`, `DB_HOST`, `DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD`),
+lalu jalankan `php artisan migrate --force`.
+
+## Akun Bawaan (Seeder)
+
+Seeder mengisi satu akun admin, dua mata kuliah contoh, enam asisten,
+dan sepuluh jadwal contoh:
+
+- Email: `pelitabangsalab@gmail.com`
+- Password: sesuai yang didefinisikan di `database/seeders/DatabaseSeeder.php`
+
+Ganti kredensial tersebut segera setelah instalasi di lingkungan produksi,
+misalnya lewat `php artisan tinker`:
+
+```php
+use App\Models\User;
+User::where('email', 'pelitabangsalab@gmail.com')->first()
+    ->update(['password' => 'password-baru-yang-kuat']);
+```
+
+## REST API
+
+Base URL: `http(s)://<host>/api/v1`. Semua endpoint membutuhkan API key
+yang dibuat melalui **Admin → API Keys**.
+
+```bash
+curl -H "X-API-KEY: sk_xxxx" https://jadwal.contoh.id/api/v1/schedules?hari=Senin
+```
+
+Lihat [`API.md`](API.md) untuk referensi endpoint, parameter, format respons,
+dan contoh kode lengkap.
+
+## Testing
+
+```bash
+php artisan test
+```
+
+Tes mencakup autentikasi API key (401 tanpa/salah key, revoke),
+siklus CRUD jadwal, filter, dan proteksi hapus mata kuliah.
+
+## Deploy ke cPanel (tanpa Git)
+
+1. Arsipkan file-file yang berubah (lihat riwayat commit) menjadi satu zip
+   dengan struktur folder utuh, tanpa menyertakan `vendor/`, `.env`,
+   `node_modules/`, dan file database lokal
+2. Upload zip melalui File Manager, lalu Extract di folder produksi
+3. Lewat cPanel Terminal, jalankan:
+   ```bash
+   php artisan migrate --force
+   php artisan view:clear && php artisan config:clear
+   ```
+4. Jika terjadi galat 500, periksa `storage/logs/laravel.log` dan pastikan
+   versi PHP CLI yang dipakai adalah ^8.2
+
+## Struktur Direktori (ringkas)
+
+```
+app/Http/Controllers/Api/V1/   # Controller REST API (schedules, courses, assistants)
+app/Http/Controllers/Admin/    # Controller panel admin (termasuk ApiKeyController)
+app/Http/Middleware/EnsureApiKey.php
+app/Http/Resources/            # Resource JSON untuk API
+app/Models/                    # Course, Schedule, Assistant, ApiKey, User
+database/migrations/           # Skema courses, assistants, schedules, api_keys
+resources/views/               # Blade: halaman publik, layout admin, halaman admin
+routes/web.php                 # Route publik + admin
+routes/api.php                 # Route REST API v1
+API.md                         # Dokumentasi API
+```
+
+## Lisensi
+
+Kode aplikasi mengikuti lisensi MIT seperti kerangka kerja Laravel.
+Logo dan identitas institusi di dalamnya adalah milik masing-masing pemilik.

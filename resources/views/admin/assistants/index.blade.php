@@ -49,7 +49,7 @@
                                 <a href="{{ route('admin.assistants.edit', $assistant) }}" class="btn-icon" title="Edit">
                                     <i class="ph ph-pencil-simple"></i>
                                 </a>
-                                <form action="{{ route('admin.assistants.destroy', $assistant) }}" method="POST" onsubmit="return confirm('Hapus asisten {{ $assistant->name }}?');">
+                                <form action="{{ route('admin.assistants.destroy', $assistant) }}" method="POST" class="form-confirm" data-confirm-title="Hapus asisten {{ $assistant->name }}?" data-confirm-text="Asisten yang dihapus tidak bisa dikembalikan." data-confirm-yes="Ya, hapus">
                                     @csrf @method('DELETE')
                                     <button type="submit" class="btn-icon" style="color: var(--c-danger); border-color: var(--c-danger-t); background: var(--c-danger-t);" title="Hapus">
                                         <i class="ph ph-trash-simple"></i>

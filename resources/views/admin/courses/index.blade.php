@@ -53,7 +53,7 @@
                         <a href="{{ route('admin.courses.edit', $course) }}" class="btn-icon" title="Edit">
                             <i class="ph ph-pencil-simple"></i>
                         </a>
-                        <form action="{{ route('admin.courses.destroy', $course) }}" method="POST" onsubmit="return confirm('Hapus mata kuliah {{ $course->name }}?');">
+                        <form action="{{ route('admin.courses.destroy', $course) }}" method="POST" class="form-confirm" data-confirm-title="Hapus mata kuliah {{ $course->name }}?" data-confirm-text="Mata kuliah yang dihapus tidak bisa dikembalikan." data-confirm-yes="Ya, hapus">
                             @csrf @method('DELETE')
                             <button type="submit" class="btn-icon" style="color: var(--c-danger); border-color: var(--c-danger-t); background: var(--c-danger-t);" title="Hapus">
                                 <i class="ph ph-trash-simple"></i>

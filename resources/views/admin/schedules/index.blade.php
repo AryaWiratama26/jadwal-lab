@@ -77,7 +77,7 @@
                                     <a href="{{ route('admin.schedules.edit', $schedule) }}" class="btn-icon" title="Edit">
                                         <i class="ph ph-pencil-simple"></i>
                                     </a>
-                                    <form action="{{ route('admin.schedules.destroy', $schedule) }}" method="POST" onsubmit="return confirm('Hapus jadwal ini?');">
+                                    <form action="{{ route('admin.schedules.destroy', $schedule) }}" method="POST" class="form-confirm" data-confirm-title="Hapus jadwal ini?" data-confirm-text="Jadwal {{ $schedule->kelas }} ({{ $schedule->hari }}) akan dihapus permanen." data-confirm-yes="Ya, hapus">
                                         @csrf @method('DELETE')
                                         <button type="submit" class="btn-icon" style="color: var(--c-danger); border-color: var(--c-danger-t); background: var(--c-danger-t);" title="Hapus">
                                             <i class="ph ph-trash-simple"></i>

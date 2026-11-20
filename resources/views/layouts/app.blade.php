@@ -17,6 +17,8 @@
             
             <a href="/" style="display: flex; align-items: center; gap: 12px; text-decoration: none;">
                 <img src="{{ asset('images/logo-upb.png') }}" alt="Logo UPB" style="height: 38px; width: auto;">
+                <img src="{{ asset('images/simbaft.png') }}" alt="SIMBA FT" style="height: 28px; width: auto; opacity: 0.5;">
+                <div style="width: 1px; height: 28px; background: var(--c-border);"></div>
                 <div style="display: flex; flex-direction: column;">
                     <span style="font-weight: 700; font-size: 0.9375rem; line-height: 1.2; letter-spacing: -0.01em; color: var(--c-ink);">Jadwal Praktikum</span>
                     <span style="font-size: 0.6875rem; color: var(--c-ink-3); font-weight: 500;">{{ config('app.university') }}</span>
@@ -39,7 +41,7 @@
     {{-- FOOTER --}}
     <footer style="border-top: 1px solid var(--c-border); padding: 1.5rem; text-align: center;">
         <p style="font-size: 0.75rem; color: var(--c-ink-3);">
-            &copy; {{ date('Y') }} Laboratorium Informatika — {{ config('app.university') }}
+            &copy; {{ date('Y') }} Laboratorium Informatika — {{ config('app.university') }} | Developed by <a href="https://instagram.com/wirarya_">Arya Wiratama</a>
         </p>
     </footer>
 

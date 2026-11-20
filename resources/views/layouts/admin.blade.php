@@ -7,6 +7,7 @@
     <title>@yield('title', 'Admin') — Jadwal Lab</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         
         @media (max-width: 768px) {
@@ -90,6 +91,10 @@
                     <i class="{{ request()->routeIs('admin.assistants.*') ? 'ph-fill' : 'ph' }} ph-users-three"></i>
                     Asisten
                 </a>
+                <a href="{{ route('admin.api-keys.index') }}" class="admin-nav-link {{ request()->routeIs('admin.api-keys.*') ? 'active' : '' }}">
+                    <i class="{{ request()->routeIs('admin.api-keys.*') ? 'ph-fill' : 'ph' }} ph-key"></i>
+                    API Keys
+                </a>
 
                 <div class="divider" style="margin: 8px 0;"></div>
                 
@@ -168,6 +173,39 @@ function toggleMobileSidebar() {
         sidebar.classList.add('show');
         overlay.style.display = 'block';
     }
+}
+
+// SweetAlert2 confirm untuk semua form .form-confirm (pengganti confirm() bawaan)
+document.addEventListener('submit', function (e) {
+    const form = e.target;
+    if (!form.classList || !form.classList.contains('form-confirm')) return;
+    e.preventDefault();
+    Swal.fire({
+        title: form.dataset.confirmTitle || 'Yakin?',
+        text: form.dataset.confirmText || '',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: form.dataset.confirmYes || 'Ya, lanjutkan',
+        cancelButtonText: 'Batal',
+        confirmButtonColor: '#C8102E',
+        reverseButtons: true,
+        focusCancel: true,
+    }).then((result) => {
+        if (result.isConfirmed) form.submit();
+    });
+});
+
+// Toast sukses global (dipakai mis. tombol salin API key)
+function toastSuccess(message) {
+    Swal.fire({
+        toast: true,
+        position: 'top-end',
+        icon: 'success',
+        title: message,
+        showConfirmButton: false,
+        timer: 2500,
+        timerProgressBar: true,
+    });
 }
 </script>
 

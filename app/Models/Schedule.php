@@ -51,4 +51,17 @@ class Schedule extends Model
     {
         return ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu'];
     }
+
+    /**
+     * Order by weekday (Senin..Minggu). Portable CASE version that works
+     * on both MySQL and SQLite (FIELD() is MySQL-only).
+     */
+    public function scopeOrderedByDay($query)
+    {
+        $cases = collect(static::dayOrder())
+            ->map(fn ($day, $i) => "WHEN '{$day}' THEN {$i}")
+            ->implode(' ');
+
+        return $query->orderByRaw("CASE hari {$cases} ELSE 99 END");
+    }
 }

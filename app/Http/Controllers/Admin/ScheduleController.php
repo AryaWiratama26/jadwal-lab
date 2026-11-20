@@ -14,7 +14,7 @@ class ScheduleController extends Controller
     {
         $schedules = Schedule::with(['course', 'assistants'])
             ->when($request->course_id, fn($q, $v) => $q->where('course_id', $v))
-            ->orderByRaw("FIELD(hari, 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu')")
+            ->orderedByDay()
             ->orderBy('waktu_mulai')
             ->paginate(15);
 
